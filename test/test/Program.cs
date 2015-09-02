@@ -9,6 +9,8 @@
             //This is the third edit
         }
 
+        static void nothing() { }
+
         static void w () { }
     }
 }
