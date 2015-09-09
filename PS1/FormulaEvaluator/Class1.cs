@@ -16,7 +16,7 @@ namespace FormulaEvaluator
         
         private static Stack<double> values = new Stack<double>();
         private static Stack<string> operators = new Stack<string>();
-
+        
         public delegate int Lookup(String v);
 
         /// <summary>
@@ -26,6 +26,7 @@ namespace FormulaEvaluator
         /// <returns></returns>
         public static string[] splitter (String s)
         {
+           s = Regex.Replace(s, @"\s+", "");
            string[] substrings = Regex.Split(s, "(\\()|(\\))|(-)|(\\+)|(\\*)|(/)");
            return substrings;
         }
@@ -86,7 +87,6 @@ namespace FormulaEvaluator
                 //TODO: Errors
                 switch (expression[i])
                 {
-                    //case Double.
                     case "/":
                     case "*":
                     case "(":
@@ -113,8 +113,22 @@ namespace FormulaEvaluator
                         break;
                     default:
                         double result;
+                        //Check to see if the token is a number
                         if (double.TryParse(expression[i], out result))
                         {
+                            if (operators.Peek().Equals("*") || operators.Peek().Equals("/"))
+                            {
+                                values.Push(applyMath(result));
+                            }
+                            else
+                            {
+                                values.Push(result);
+                            }
+                        }
+                        //Check for variable
+                        else if (Char.IsLetter(expression[i].First()))
+                        {
+                            result = variableEvaluator(expression[i]);
                             if (operators.Peek().Equals("*") || operators.Peek().Equals("/"))
                             {
                                 values.Push(applyMath(result));
