@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
+/// <summary>
+/// Author: Jordan Hendley, u0500250
+/// </summary>
 namespace FormulaEvaluator
 {
     /// <summary>
